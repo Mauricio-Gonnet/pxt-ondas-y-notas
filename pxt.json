@@ -1,0 +1,20 @@
+{
+    "name": "ondas-y-notas",
+    "version": "1.0.0",
+    "description": "Ondas y Notas: música con instrumentos reales, colores y texto en la computadora (materialesdefisica.com)",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "README.md",
+        "ondas.ts"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "supportedTargets": [
+        "microbit"
+    ],
+    "preferredEditor": "blocksprj"
+}
