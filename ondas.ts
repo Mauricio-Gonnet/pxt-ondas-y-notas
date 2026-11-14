@@ -118,6 +118,28 @@ enum Tecla {
     B = 15
 }
 
+
+enum ColorNota {
+    //% block="Do · rojo"
+    Do = 0xE8222B,
+    //% block="Re · naranja"
+    Re = 0xFF8C00,
+    //% block="Mi · amarillo"
+    Mi = 0xFFD21F,
+    //% block="Fa · verde"
+    Fa = 0x2EB84A,
+    //% block="Sol · azul"
+    Sol = 0x0B74D9,
+    //% block="La · añil"
+    La = 0x4338CA,
+    //% block="Si · violeta"
+    Si = 0x8B2BE2,
+    //% block="blanco"
+    Blanco = 0xFFFFFF,
+    //% block="negro"
+    Negro = 0x000000
+}
+
 /**
  * Música con instrumentos reales, colores y texto en la pantalla de la computadora.
  */
@@ -149,8 +171,8 @@ namespace ondasYNotas {
                     music.stopAllSounds()
                     sonando = 0
                     // la página se conectó después de «al iniciar»: le repite el instrumento y el volumen
-                    if (ultimoInstrumento >= 0) serial.writeLine(PREFIJO + "I:" + ultimoInstrumento)
-                    if (ultimoVolumen >= 0) serial.writeLine(PREFIJO + "V:" + ultimoVolumen)
+                    if (ultimoInstrumento >= 0) enviar("I:" + ultimoInstrumento)
+                    if (ultimoVolumen >= 0) enviar("V:" + ultimoVolumen)
                 }
             }
         })
@@ -160,9 +182,28 @@ namespace ondasYNotas {
         return control.millis() - ultimoAviso < 2500
     }
 
+    // Cola de envío: un solo proceso manda los mensajes, de a uno y en orden. Cada mensaje sale con una sola
+    // escritura (serial.writeLine rellenaba con espacios hasta 32 caracteres en muchas escrituras: era lento y,
+    // con dos eventos seguidos, los mensajes se cruzaban y se perdían).
+    const cola: string[] = []
+    let enviando = false
+
     function enviar(mensaje: string): void {
         iniciar()
-        serial.writeLine(PREFIJO + mensaje)
+        if (cola.length < 60) cola.push(PREFIJO + mensaje + "\n")
+        if (enviando) return
+        enviando = true
+        control.inBackground(function () {
+            while (cola.length > 0) {
+                // junta lo pendiente en una sola escritura (menos llamadas al puerto, menos caracteres perdidos)
+                let bloque = ""
+                while (cola.length > 0 && bloque.length + cola[0].length <= 200) bloque += cola.shift()
+                if (bloque.length == 0) bloque = cola.shift()
+                serial.writeString(bloque)
+                basic.pause(1)
+            }
+            enviando = false
+        })
     }
 
     function sinSaltos(t: string): string {
@@ -403,6 +444,17 @@ namespace ondasYNotas {
             c = Math.idiv(c, 16)
         }
         enviar("F:" + hex)
+    }
+
+
+    /**
+     * El color de cada nota, igual que en Piano Makey Makey (del rojo del Do al violeta del Si).
+     * Va dentro de «cambiar fondo a».
+     */
+    //% blockId=ondas_color_nota block="color de %nota"
+    //% group="Pantalla" weight=95
+    export function colorDe(nota: ColorNota): number {
+        return nota
     }
 
     /**

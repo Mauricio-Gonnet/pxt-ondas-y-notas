@@ -29,7 +29,7 @@ Sitio: https://materialesdefisica.com
 - fijar volumen [100]
 
 **Pantalla**
-- cambiar fondo a [color]
+- cambiar fondo a [color] · color de [Do · rojo] (los colores de Piano Makey Makey)
 - mostrar texto [DO] · mostrar texto [DO] tamaño [52] en x [50] y [50] durante [1,5] s · borrar texto
 - mostrar en pantalla [distancia] = [valor]
 
@@ -62,13 +62,14 @@ Armado completo y ejemplos: https://materialesdefisica.com/u.php?u=bit-ondas-y-n
 ```blocks
 ondasYNotas.fijarInstrumento(Instrumento.Piano)
 ondasYNotas.alPresionar(Tecla.P3, function () {
-    ondasYNotas.cambiarFondo(0xff0000)
+    ondasYNotas.cambiarFondo(ondasYNotas.colorDe(ColorNota.Do))
     ondasYNotas.mostrarTexto("DO")
     ondasYNotas.iniciarNota(262)
 })
 ondasYNotas.alSoltar(Tecla.P3, function () {
     ondasYNotas.detenerNota(262)
     ondasYNotas.borrarTexto()
+    ondasYNotas.cambiarFondo(ondasYNotas.colorDe(ColorNota.Blanco))
 })
 ```
 
