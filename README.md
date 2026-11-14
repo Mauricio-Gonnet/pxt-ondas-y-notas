@@ -8,7 +8,7 @@ Sitio: https://materialesdefisica.com
 ## Qué hace
 
 - **Placa sola:** las notas suenan con el parlante de la placa y el texto pasa por la matriz de LED.
-- **Placa conectada por USB a la página «Bit - Ondas y Notas»:** la placa se calla y la computadora toca los instrumentos reales, cambia el color de fondo y muestra el texto.
+- **Placa conectada por USB a la página [Bit - Ondas y Notas](https://materialesdefisica.com/u.php?u=bit-ondas-y-notas):** la placa se calla y la computadora toca los instrumentos reales, cambia el color de fondo y muestra el texto.
 
 ## Cómo agregarla en MakeCode
 
@@ -18,7 +18,7 @@ Sitio: https://materialesdefisica.com
 
 ## Bloques
 
-- fijar instrumento [órgano de iglesia]
+- fijar instrumento [órgano de iglesia] (28 instrumentos)
 - tocar nota [Do] durante [1/2 tiempo]
 - iniciar nota [Do] · detener nota [Do] · detener todas las notas
 - fijar volumen [100]

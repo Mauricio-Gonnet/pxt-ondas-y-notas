@@ -22,14 +22,16 @@
 enum Instrumento {
     //% block="órgano de iglesia"
     OrganoDeIglesia = 19,
-    //% block="piano"
+    //% block="piano de cola"
     Piano = 0,
+    //% block="piano brillante"
+    PianoBrillante = 1,
     //% block="piano eléctrico"
     PianoElectrico = 4,
-    //% block="clave"
-    Clave = 6,
-    //% block="celesta"
-    Celesta = 8,
+    //% block="órgano Hammond"
+    OrganoHammond = 16,
+    //% block="acordeón"
+    Acordeon = 21,
     //% block="vibráfono"
     Vibrafono = 11,
     //% block="marimba"
@@ -38,16 +40,18 @@ enum Instrumento {
     Xilofono = 13,
     //% block="campanas tubulares"
     Campanas = 14,
-    //% block="acordeón"
-    Acordeon = 21,
-    //% block="armónica"
-    Armonica = 22,
+    //% block="kalimba"
+    Kalimba = 108,
+    //% block="tambores metálicos"
+    SteelDrums = 114,
     //% block="guitarra criolla"
     GuitarraCriolla = 24,
     //% block="guitarra acústica"
     GuitarraAcustica = 25,
     //% block="guitarra eléctrica"
     GuitarraElectrica = 27,
+    //% block="guitarra distorsionada"
+    GuitarraDistorsionada = 30,
     //% block="bajo eléctrico"
     Bajo = 33,
     //% block="violín"
@@ -56,15 +60,13 @@ enum Instrumento {
     Violonchelo = 42,
     //% block="arpa"
     Arpa = 46,
-    //% block="cuerdas"
-    Cuerdas = 48,
     //% block="coro"
     Coro = 52,
     //% block="trompeta"
     Trompeta = 56,
     //% block="trombón"
     Trombon = 57,
-    //% block="saxo"
+    //% block="saxo alto"
     Saxo = 65,
     //% block="clarinete"
     Clarinete = 71,
@@ -72,10 +74,8 @@ enum Instrumento {
     Flauta = 73,
     //% block="flauta dulce"
     FlautaDulce = 74,
-    //% block="banjo"
-    Banjo = 105,
-    //% block="kalimba"
-    Kalimba = 108
+    //% block="sintetizador (onda cuadrada)"
+    Sintetizador = 80
 }
 
 /**
@@ -229,7 +229,7 @@ namespace ondasYNotas {
 
     /**
      * Muestra un texto en la pantalla de la computadora.
-     * Con la placa sola, el texto pasa por la matriz de LED.
+     * Con la placa sola, el texto pasa por la matriz de LED (sin frenar el programa).
      */
     //% blockId=ondas_texto block="mostrar texto %texto"
     //% texto.defl="DO"
@@ -241,7 +241,7 @@ namespace ondasYNotas {
             limpio += (ch == "\n" || ch == "\r") ? " " : ch
         }
         enviar("T:" + limpio)
-        if (!hayConexion()) basic.showString(limpio)
+        if (!hayConexion()) control.inBackground(function () { basic.showString(limpio, 80) })
     }
 
     /**
