@@ -129,20 +129,29 @@ namespace ondasYNotas {
     let ultimoAviso = -100000
     let sonando = 0          // Hz de la nota que suena en la placa (0 = ninguna)
     let ledApagado = false   // se apaga el panel de LED al usar las teclas P3, P4, P6, P7 o P10
+    let ultimoInstrumento = -1
+    let ultimoVolumen = -1
 
     function iniciar(): void {
         if (iniciado) return
         iniciado = true
         serial.redirectToUSB()
         serial.setBaudRate(BaudRate.BaudRate115200)
+        // Lo que se manda espera en un búfer de 20 caracteres: varios mensajes seguidos no entraban y se perdían.
+        serial.setTxBufferSize(250)
+        serial.setRxBufferSize(64)
         serial.onDataReceived(serial.delimiters(Delimiters.NewLine), function () {
             const linea = serial.readUntil(serial.delimiters(Delimiters.NewLine))
             if (linea.indexOf("ON:P") >= 0) {
-                if (!hayConexion()) {
+                const recien = !hayConexion()
+                ultimoAviso = control.millis()
+                if (recien) {
                     music.stopAllSounds()
                     sonando = 0
+                    // la página se conectó después de «al iniciar»: le repite el instrumento y el volumen
+                    if (ultimoInstrumento >= 0) serial.writeLine(PREFIJO + "I:" + ultimoInstrumento)
+                    if (ultimoVolumen >= 0) serial.writeLine(PREFIJO + "V:" + ultimoVolumen)
                 }
-                ultimoAviso = control.millis()
             }
         })
     }
@@ -158,7 +167,7 @@ namespace ondasYNotas {
 
     function sinSaltos(t: string): string {
         let r = ""
-        for (let i = 0; i < t.length; i++) {
+        for (let i = 0; i < t.length && i < 60; i++) {
             const ch = t.charAt(i)
             r += (ch == "\n" || ch == "\r") ? " " : ch
         }
@@ -303,6 +312,7 @@ namespace ondasYNotas {
     //% blockId=ondas_instrumento block="fijar instrumento %instrumento"
     //% group="Notas" weight=100
     export function fijarInstrumento(instrumento: Instrumento): void {
+        ultimoInstrumento = instrumento
         enviar("I:" + instrumento)
     }
 
@@ -373,6 +383,7 @@ namespace ondasYNotas {
     //% group="Notas" weight=50
     export function fijarVolumen(volumen: number): void {
         const v = Math.constrain(Math.round(volumen), 0, 100)
+        ultimoVolumen = v
         enviar("V:" + v)
         music.setVolume(Math.round(v * 255 / 100))
     }
