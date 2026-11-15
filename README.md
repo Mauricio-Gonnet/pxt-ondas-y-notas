@@ -34,27 +34,26 @@ Sitio: https://materialesdefisica.com
 - mostrar en pantalla [distancia] = [valor]
 
 **Sensores y conexión**
-- distancia (cm) trig [P12] eco [P13]
+- distancia (cm) trig [P1] eco [P2]
 - conectado a la computadora
 
 ## Piano de 8 notas
 
 | Nota | Do | Re | Mi | Fa | Sol | La | Si | Do |
 |---|---|---|---|---|---|---|---|---|
-| Pin | P3 | P4 | P6 | P7 | P1 | P8 | P10 | P2 |
+| Pin | P3 | P4 | P6 | P7 | P8 | P10 | P13 | P14 |
 
-- P1, P2 y el logo son táctiles de fábrica.
-- P3, P4, P6, P7, P8, P10 (y P12 a P16) necesitan una **resistencia de 10 MΩ del pin a 3V**.
+- Las ocho teclas llevan una **resistencia de 10 MΩ del pin a 3V**. (P1, P2 y el logo son táctiles de fábrica, pero P1 y P2 quedan para el sensor.)
 - Al usar P3, P4, P6, P7 o P10, el panel de LED se apaga solo (usa esos pines).
 - No usar: P5 y P11 (botones), P19 y P20 (sensores internos).
-- Sensor de distancia: trig en P12, eco en P13.
+- Sensor de distancia (HC-SR04P, de 3 V): Trig en P1, Echo en P2.
 
 Armado completo y ejemplos: https://materialesdefisica.com/u.php?u=bit-ondas-y-notas (botón «Cómo se usa»).
 
 ## Tené en cuenta
 
 - La extensión usa el puerto serie por USB a 115200 baudios. No uses en el mismo proyecto «serie: al recibir datos» con fin de línea, porque reemplaza al de la extensión.
-- El sensor HC-SR04 común trabaja con 5 V: el eco pasa por un divisor de tensión (1 kΩ en serie y 2 kΩ a GND) antes de P13, y el GND del sensor se une al de la placa. El HC-SR04P funciona con 3 V y no necesita nada de eso.
+- Usá un sensor de 3 V (HC-SR04P o RCWL-1601) directo al 3V3. El HC-SR04 común trabaja con 5 V: fuente aparte, GND común y divisor de tensión (1 kΩ en serie y 2 kΩ a GND) antes de P2.
 - Para conectar la página, primero grabá la placa y desconectala en MakeCode (la conexión USB la usa una sola página por vez).
 
 ## Ejemplo

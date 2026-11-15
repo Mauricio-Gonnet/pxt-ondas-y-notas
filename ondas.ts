@@ -6,6 +6,7 @@
  * (salvo que se usen las teclas P3, P4, P6, P7 o P10: ahí el panel de LED se apaga para liberar esos pines).
  * Teclas al estilo Makey Makey: se toca la tecla y GND a la vez. P1, P2 y el logo son táctiles de fábrica;
  * P3, P4, P6, P7, P8, P10, P12, P13, P14, P15 y P16 necesitan una resistencia de 10 MΩ del pin a 3V.
+ * Piano de 8 notas del sitio: P3, P4, P6, P7, P8, P10, P13, P14 (todas con 10 MΩ); sensor de distancia Trig P1, Echo P2.
  * Placa conectada a la página «Bit - Ondas y Notas» por USB: la placa se calla y la
  * computadora toca los instrumentos reales, cambia el fondo y muestra el texto.
  *
@@ -517,7 +518,7 @@ namespace ondasYNotas {
      * Devuelve 0 si no hay objeto dentro de unos 4 m.
      */
     //% blockId=ondas_distancia block="distancia (cm) trig %trig eco %eco"
-    //% trig.defl=DigitalPin.P12 eco.defl=DigitalPin.P13
+    //% trig.defl=DigitalPin.P1 eco.defl=DigitalPin.P2
     //% group="Sensores" weight=100
     export function distancia(trig: DigitalPin, eco: DigitalPin): number {
         pins.setPull(trig, PinPullMode.PullNone)

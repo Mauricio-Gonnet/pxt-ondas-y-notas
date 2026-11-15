@@ -1,6 +1,6 @@
 {
     "name": "ondas-y-notas",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "Ondas y Notas: música con instrumentos reales, colores y texto en la computadora (materialesdefisica.com)",
     "license": "MIT",
     "dependencies": {
